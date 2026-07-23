@@ -21,6 +21,10 @@ AXI_UVM_AGENT = $(UVM_DIR)/agents/ocl_axi_agent/ocl_axi_agent_pkg.sv
 AXI_UVM_AGENT += $(UVM_DIR)/agents/ocl_axi_agent/ocl_axi_if.sv
 AXI_UVM_OPTS = +incdir+$(UVM_DIR)/agents/ocl_axi_agent
 
+QSPI_UVM_AGENT = $(UVM_DIR)/agents/ocl_qspi_agent/ocl_qspi_agent_pkg.sv
+QSPI_UVM_AGENT += $(UVM_DIR)/agents/ocl_qspi_agent/ocl_qspi_if.sv
+QSPI_UVM_OPTS = +incdir+$(UVM_DIR)/agents/ocl_qspi_agent
+
 AXI_ENV_DIR ?= ../uvm/verif
 AXI_ENV_PKGS = $(AXI_ENV_DIR)/env/axi_qspi_env_pkg.sv \
                $(AXI_ENV_DIR)/sequences/axi_qspi_seq_pkg.sv \
@@ -39,6 +43,7 @@ compile:
 	$(VLIB_BIN) work
 	$(VMAP_BIN) work work
 	$(VLOG_BIN) $(AXI_QSPI_SRC) $(AXI_QSPI_OPTS)
+	$(VLOG_BIN) $(QSPI_UVM_AGENT) $(QSPI_UVM_OPTS)
 	$(VLOG_BIN) $(AXI_UVM_AGENT) $(AXI_UVM_OPTS)
 	$(VLOG_BIN) $(AXI_ENV_PKGS)
 	$(VLOG_BIN) $(AXI_TB)

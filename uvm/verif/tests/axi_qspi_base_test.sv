@@ -17,6 +17,10 @@ class axi_qspi_base_test extends uvm_test;
       `uvm_fatal("NOVIF", "Missing AXI virtual interface for test")
     end
 
+    if (!uvm_config_db#(virtual ocl_qspi_if)::get(this, "", "qspi_vif", cfg.qspi_cfg.vif)) begin
+      `uvm_fatal("NOVIF", "Missing QSPI virtual interface for test")
+    end
+
     uvm_config_db#(axi_qspi_env_config)::set(this, "env", "cfg", cfg);
     env = axi_qspi_env::type_id::create("env", this);
 

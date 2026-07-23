@@ -20,6 +20,8 @@ module axi_qspi_tb_top;
 
   ocl_axi_if axi_if(.aclk(aclk), .aresetn(aresetn));
 
+  ocl_qspi_if qspi_if(.clk(aclk), .rst_n(aresetn));
+
   axi_qspi_wrapper dut (
     .i_qspi_aclk       (aclk),
     .i_qspi_aresetn    (axi_if.aresetn),
@@ -59,16 +61,17 @@ module axi_qspi_tb_top;
     .o_qspi_m_rlast    (axi_if.m_rlast),
     .o_qspi_m_rvalid   (axi_if.m_rvalid),
     .i_qspi_m_rready   (axi_if.m_rready),
-    .o_qspi_sclk       ( ),
-    .o_qspi_cs_n       ( ),
-    .i_qspi_io_i       ( ),
-    .o_qspi_io_o       ( ),
-    .o_qspi_io_oe      ( ),
-    .o_qspi_irq        ( )
+    .o_qspi_sclk       (qspi_if.sclk),
+    .o_qspi_cs_n       (qspi_if.cs_n),
+    .i_qspi_io_i       (qspi_if.io_i),
+    .o_qspi_io_o       (qspi_if.io_o),
+    .o_qspi_io_oe      (qspi_if.io_oe),
+    .o_qspi_irq        (qspi_if.irq)
   );
 
   initial begin
     uvm_config_db#(virtual ocl_axi_if)::set(null, "uvm_test_top*", "axi_vif", axi_if);
+    uvm_config_db#(virtual ocl_qspi_if)::set(null, "uvm_test_top*", "qspi_vif", qspi_if);
     run_test();
   end
 endmodule

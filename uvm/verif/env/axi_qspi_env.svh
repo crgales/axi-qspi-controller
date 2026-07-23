@@ -3,6 +3,7 @@ class axi_qspi_env extends uvm_env;
 
   axi_qspi_env_config cfg;
   ocl_axi_agent       m_axi_agent;
+  ocl_qspi_agent      m_qspi_agent;
   axi_qspi_scoreboard sb;
 
   function new(string name, uvm_component parent);
@@ -17,6 +18,9 @@ class axi_qspi_env extends uvm_env;
 
     uvm_config_db#(ocl_axi_config)::set(this, "m_axi_agent", "cfg", cfg.axi_cfg);
     m_axi_agent = ocl_axi_agent::type_id::create("m_axi_agent", this);
+
+    uvm_config_db#(ocl_qspi_config)::set(this, "m_qspi_agent", "cfg", cfg.qspi_cfg);
+    m_qspi_agent = ocl_qspi_agent::type_id::create("m_qspi_agent", this);
 
     sb          = axi_qspi_scoreboard::type_id::create("sb", this);
   endfunction
