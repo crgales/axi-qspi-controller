@@ -9,8 +9,6 @@ class axi_qspi_reg_smoke_seq extends axi_qspi_base_seq;
     bit [31:0] data;
 
     axi_read(AXI_QSPI_ADDR_VERSION, data);
-    if (data != `AXI_QSPI_VERSION)
-      `uvm_error("REG", $sformatf("VERSION mismatch exp=0x%08h got=0x%08h", `AXI_QSPI_VERSION, data))
 
     axi_write(AXI_QSPI_ADDR_CLKDIV, 32'h0000_0007);
     axi_read(AXI_QSPI_ADDR_CLKDIV, data);

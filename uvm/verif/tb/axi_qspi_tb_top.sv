@@ -2,8 +2,7 @@
 
 module axi_qspi_tb_top;
   import uvm_pkg::*;
-  import axi_qspi_pkg::*;
-  import axi_qspi_uvm_pkg::*;
+  import axi_qspi_test_pkg::*;
 
   bit aclk;
 
