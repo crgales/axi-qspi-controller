@@ -9,17 +9,18 @@ work/
 transcript
 vsim.wlf
 *.wlf
-modelsim.ini
+*.ini
 wlft*
 *.ucdb
 covhtmlreport/
+qwave.db
+design.bin
 
 # Verilator
 obj_dir/
 
 # Simulator logs
 *.log
-sim/
 reports/
 
 # Temporary files
