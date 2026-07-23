@@ -50,4 +50,4 @@ run:
 
 clean:
 	rm -rf obj_dir
-	rm -rf work transcript vsim.wlf modelsim.ini tr_db.log
+	rm -rf work transcript qwave.db design.bin *.ini tr_db.log

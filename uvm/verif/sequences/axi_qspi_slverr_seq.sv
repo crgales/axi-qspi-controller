@@ -12,7 +12,7 @@ class axi_qspi_slverr_seq extends axi_qspi_base_seq;
     // Save current CLKDIV value (may have been modified by earlier sequences)
     axi_read(AXI_QSPI_ADDR_CLKDIV, saved_clkdiv);
 
-    `uvm_info("SLVERR", "── Burst write (awlen=3) → SLVERR ──", UVM_LOW)
+    `uvm_info("SLVERR", "Burst write (awlen=3) -> SLVERR", UVM_LOW)
     axi_burst_write(AXI_QSPI_ADDR_CLKDIV, 32'hDEAD_BEEF, 8'd3);
 
     // Verify the register was NOT corrupted by the burst
