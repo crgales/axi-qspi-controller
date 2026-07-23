@@ -1,7 +1,7 @@
-class axi_qspi_axi_driver extends uvm_driver #(axi_qspi_axi_item);
-  `uvm_component_utils(axi_qspi_axi_driver)
+class ocl_axi_driver extends uvm_driver #(ocl_axi_seq_item);
+  `uvm_component_utils(ocl_axi_driver)
 
-  virtual axi_qspi_axi_if vif;
+  virtual ocl_axi_if vif;
 
   function new(string name, uvm_component parent);
     super.new(name, parent);
@@ -9,27 +9,27 @@ class axi_qspi_axi_driver extends uvm_driver #(axi_qspi_axi_item);
 
   function void build_phase(uvm_phase phase);
     super.build_phase(phase);
-    if (!uvm_config_db#(virtual axi_qspi_axi_if)::get(this, "", "vif", vif))
-      `uvm_fatal("NOVIF", "Missing axi_qspi_axi_if for driver")
+    if (!uvm_config_db#(virtual ocl_axi_if)::get(this, "", "vif", vif))
+      `uvm_fatal("NOVIF", "Missing ocl_axi_if for driver")
   endfunction
 
   task run_phase(uvm_phase phase);
-    axi_qspi_axi_item tr;
-    vif.init_master();
+    ocl_axi_seq_item tr;
+
     wait (vif.aresetn == 1'b1);
     forever begin
       seq_item_port.get_next_item(tr);
       case (tr.cmd)
-        AXI_QSPI_AXI_WRITE   : axi_write(tr);
-        AXI_QSPI_AXI_READ    : axi_read(tr);
-        AXI_QSPI_AXI_MEM_READ: axi_mem_read(tr);
-        default              : `uvm_error("DRV", "Unsupported AXI command")
+        OCL_AXI_WRITE   : axi_write(tr);
+        OCL_AXI_READ    : axi_read(tr);
+        OCL_AXI_MEM_READ: axi_mem_read(tr);
+        default         : `uvm_error("DRV", "Unsupported AXI command")
       endcase
       seq_item_port.item_done();
     end
   endtask
 
-  task automatic axi_write(axi_qspi_axi_item tr);
+  task automatic axi_write(ocl_axi_seq_item tr);
     fork
       begin
         repeat (tr.aw_delay) @(posedge vif.aclk);
@@ -69,7 +69,7 @@ class axi_qspi_axi_driver extends uvm_driver #(axi_qspi_axi_item);
                                        tr.addr[7:0], tr.expected_resp, tr.resp))
   endtask
 
-  task automatic axi_read(axi_qspi_axi_item tr);
+  task automatic axi_read(ocl_axi_seq_item tr);
     @(posedge vif.aclk);
     vif.s_araddr  <= tr.addr[7:0];
     vif.s_arlen   <= tr.burst_len;
@@ -97,7 +97,7 @@ class axi_qspi_axi_driver extends uvm_driver #(axi_qspi_axi_item);
                                        tr.addr[7:0], tr.expected_resp, tr.resp))
   endtask
 
-  task automatic axi_mem_read(axi_qspi_axi_item tr);
+  task automatic axi_mem_read(ocl_axi_seq_item tr);
     @(posedge vif.aclk);
     vif.m_araddr  <= tr.addr;
     vif.m_arlen   <= tr.len;
@@ -115,4 +115,4 @@ class axi_qspi_axi_driver extends uvm_driver #(axi_qspi_axi_item);
     @(posedge vif.aclk);
     vif.m_rready <= 1'b0;
   endtask
-endclass
+endclass : ocl_axi_driver

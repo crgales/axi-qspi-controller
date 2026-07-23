@@ -1,13 +1,12 @@
-interface axi_qspi_axi_if #(
+interface ocl_axi_if #(
   parameter int C_S_AXI_DATA_WIDTH = 32,
   parameter int C_S_AXI_ADDR_WIDTH = 8,
   parameter int C_M_AXI_DATA_WIDTH = 32,
   parameter int C_M_AXI_ADDR_WIDTH = 32
 ) (
-  input logic aclk
+  input logic aclk,
+  input logic aresetn
 );
-
-  logic                                aresetn;
 
   logic [C_S_AXI_ADDR_WIDTH-1:0]       s_awaddr;
   logic [7:0]                          s_awlen;
@@ -46,40 +45,5 @@ interface axi_qspi_axi_if #(
   logic                                m_rlast;
   logic                                m_rvalid;
   logic                                m_rready;
-
-  logic                                qspi_sclk;
-  logic                                qspi_cs_n;
-  logic [3:0]                          qspi_io_i;
-  logic [3:0]                          qspi_io_o;
-  logic [3:0]                          qspi_io_oe;
-  logic                                irq;
-
-  task automatic init_master();
-    s_awaddr  <= '0;
-    s_awlen   <= 8'd0;
-    s_awsize  <= 3'd2;
-    s_awburst <= 2'd1;
-    s_awvalid <= 1'b0;
-    s_wdata   <= '0;
-    s_wstrb   <= '0;
-    s_wlast   <= 1'b1;
-    s_wvalid  <= 1'b0;
-    s_bready  <= 1'b0;
-    s_araddr  <= '0;
-    s_arlen   <= 8'd0;
-    s_arsize  <= 3'd2;
-    s_arburst <= 2'd1;
-    s_arvalid <= 1'b0;
-    s_rready  <= 1'b0;
-
-    m_araddr  <= '0;
-    m_arlen   <= 8'd0;
-    m_arsize  <= 3'd2;
-    m_arburst <= 2'd1;
-    m_arvalid <= 1'b0;
-    m_rready  <= 1'b0;
-
-    qspi_io_i <= 4'hF;
-  endtask
 
 endinterface

@@ -1,7 +1,7 @@
 class axi_qspi_scoreboard extends uvm_component;
   `uvm_component_utils(axi_qspi_scoreboard)
 
-  uvm_analysis_imp #(axi_qspi_axi_item, axi_qspi_scoreboard) item_export;
+  uvm_analysis_imp #(ocl_axi_seq_item, axi_qspi_scoreboard) item_export;
   int unsigned rsp_count;
   int unsigned err_count;
   int unsigned decerr_count;
@@ -17,7 +17,7 @@ class axi_qspi_scoreboard extends uvm_component;
     decerr_count = 0;
   endfunction
 
-  function void write(axi_qspi_axi_item tr);
+  function void write(ocl_axi_seq_item tr);
     rsp_count++;
     case (tr.resp)
       2'b00: ; // OKAY — no action
