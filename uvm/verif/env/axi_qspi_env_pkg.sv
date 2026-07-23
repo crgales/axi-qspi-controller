@@ -4,6 +4,7 @@ package axi_qspi_env_pkg;
 
   import ocl_axi_agent_pkg::*;
 
+  `include "axi_qspi_env_config.svh"
   `include "axi_qspi_scoreboard.svh"
   `include "axi_qspi_env.svh"
 endpackage : axi_qspi_env_pkg

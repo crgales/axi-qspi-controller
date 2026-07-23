@@ -1,8 +1,8 @@
 class axi_qspi_base_test extends uvm_test;
   `uvm_component_utils(axi_qspi_base_test)
 
+  axi_qspi_env_config cfg;
   axi_qspi_env env;
-  virtual ocl_axi_if vif;
 
   function new(string name, uvm_component parent);
     super.new(name, parent);
@@ -10,9 +10,16 @@ class axi_qspi_base_test extends uvm_test;
 
   function void build_phase(uvm_phase phase);
     super.build_phase(phase);
+    cfg = axi_qspi_env_config::type_id::create("cfg");
+    cfg.create_configs();  // Creates sub-configurations for axi_cfg
+
+    if (!uvm_config_db#(virtual ocl_axi_if)::get(this, "", "axi_vif", cfg.axi_cfg.vif)) begin
+      `uvm_fatal("NOVIF", "Missing AXI virtual interface for test")
+    end
+
+    uvm_config_db#(axi_qspi_env_config)::set(this, "env", "cfg", cfg);
     env = axi_qspi_env::type_id::create("env", this);
-    if (!uvm_config_db#(virtual ocl_axi_if)::get(this, "", "vif", vif))
-      `uvm_fatal("NOVIF", "Missing ocl_axi_if for test")
+
   endfunction
 
 endclass

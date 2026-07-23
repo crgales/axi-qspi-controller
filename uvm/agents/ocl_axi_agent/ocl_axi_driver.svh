@@ -1,6 +1,7 @@
 class ocl_axi_driver extends uvm_driver #(ocl_axi_seq_item);
   `uvm_component_utils(ocl_axi_driver)
 
+  ocl_axi_config cfg;
   virtual ocl_axi_if vif;
 
   function new(string name, uvm_component parent);
@@ -9,8 +10,13 @@ class ocl_axi_driver extends uvm_driver #(ocl_axi_seq_item);
 
   function void build_phase(uvm_phase phase);
     super.build_phase(phase);
-    if (!uvm_config_db#(virtual ocl_axi_if)::get(this, "", "vif", vif))
+    if (!uvm_config_db#(ocl_axi_config)::get(this, "", "cfg", cfg)) begin
+      `uvm_fatal("NOCFG", "Missing ocl_axi_config configuration object")
+    end
+    vif = cfg.vif;
+    if (vif == null) begin
       `uvm_fatal("NOVIF", "Missing ocl_axi_if for driver")
+    end
   endfunction
 
   task run_phase(uvm_phase phase);

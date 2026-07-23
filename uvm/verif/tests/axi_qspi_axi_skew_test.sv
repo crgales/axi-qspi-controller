@@ -9,7 +9,7 @@ class axi_qspi_axi_skew_test extends axi_qspi_base_test;
     axi_qspi_axi_skew_seq seq;
     phase.raise_objection(this);
     seq = axi_qspi_axi_skew_seq::type_id::create("seq");
-    seq.start(env.agent.sequencer);
+    seq.start(env.m_axi_agent.sequencer);
     phase.drop_objection(this);
   endtask
 endclass

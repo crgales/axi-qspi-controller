@@ -8,6 +8,7 @@ package ocl_axi_agent_pkg;
     OCL_AXI_MEM_READ
   } ocl_axi_cmd_e;
 
+  `include "ocl_axi_config.svh"
   `include "ocl_axi_seq_item.svh"
   `include "ocl_axi_driver.svh"
   `include "ocl_axi_monitor.svh"

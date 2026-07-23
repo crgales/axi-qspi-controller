@@ -68,8 +68,7 @@ module axi_qspi_tb_top;
   );
 
   initial begin
-    uvm_config_db#(virtual ocl_axi_if)::set(null, "uvm_test_top*", "vif", axi_if);
-    uvm_config_db#(virtual ocl_axi_if)::set(null, "uvm_test_top.env.agent*", "vif", axi_if);
+    uvm_config_db#(virtual ocl_axi_if)::set(null, "uvm_test_top*", "axi_vif", axi_if);
     run_test();
   end
 endmodule

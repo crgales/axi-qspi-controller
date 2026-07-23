@@ -1,6 +1,7 @@
 class ocl_axi_monitor extends uvm_component;
   `uvm_component_utils(ocl_axi_monitor)
 
+  ocl_axi_config cfg;
   virtual ocl_axi_if vif;
   uvm_analysis_port #(ocl_axi_seq_item) ap;
 
@@ -11,8 +12,13 @@ class ocl_axi_monitor extends uvm_component;
 
   function void build_phase(uvm_phase phase);
     super.build_phase(phase);
-    if (!uvm_config_db#(virtual ocl_axi_if)::get(this, "", "vif", vif))
+    if (!uvm_config_db#(ocl_axi_config)::get(this, "", "cfg", cfg)) begin
+      `uvm_fatal("NOCFG", "Missing ocl_axi_config configuration object")
+    end
+    vif = cfg.vif;
+    if (vif == null) begin
       `uvm_fatal("NOVIF", "Missing ocl_axi_if for monitor")
+    end
   endfunction
 
   task run_phase(uvm_phase phase);
